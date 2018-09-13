@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		canvas {
+			display: block;
+			margin: 0 auto;
+			border: 1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" width="360" height="512"></canvas>
+	<script type="text/javascript" src="js/Game.js"></script>
+	<script type="text/javascript" src="js/Background.js"></script>
+	<script type="text/javascript" src="js/Bird.js"></script>
+	<script type="text/javascript" src="js/Pipe.js"></script>
+	<script type="text/javascript">
+	/*
+	游戏分析: 
+			游戏中有一只鸟，在不断的穿越管子
+			同时，管子向后撤，地面也要向后撤，背景（山）也要向后撤
+
+	当前游戏可以分成几个类：
+			鸟类， 管子类， 背景类（地面和山）， 游戏类
+
+	继续分析：
+			当前游戏中需要很多图片，我们希望当所有图片加载完毕之后再执行代码。
+			当前游戏中所需要的图片有:
+			 ["images/bird0_0.png", "images/bird0_1.png", "images/bird0_2.png", "images/bg_day.png", "images/land.png", "images/pipe_down.png", "images/pipe_up.png"]
+ 	*/
+ 	 // 定义数组用来存放游戏中所需要的图片路径，这些是路径，还需要得到图片
+	 var imgArr = ["images/bird0_0.png", "images/bird0_1.png", "images/bird0_2.png", "images/bg_day.png", "images/land.png", "images/pipe_down.png", "images/pipe_up.png"];
+
+	 // 希望所有图片加载完毕之后执
+	 loadImag(imgArr, function(imgArr) {
+	 	// 获取cnavas
+	 	var canvas = document.getElementById("myCanvas");
+	 	// 获取ctx
+	 	var ctx = canvas.getContext("2d");
+	 	// 初始化鸟
+	 	var bird = new Bird(imgArr.slice(0, 3), 100, 100);
+	 	// 初始化管子
+	 	var pipe = new Pipe(imgArr[5], imgArr[6], 4, 360);
+	 	// 初始化地面
+	 	var land = new Background(imgArr[4], 4, 0, 400);
+	 	// 初始化山
+	 	console.log(imgArr[3])
+	 	var mountain = new Background(imgArr[3], 2, 0,0);
+	 	console.log(mountain)
+	 	// 初始化游戏
+	 	var g = new Game(ctx, bird, pipe, land, mountain);
+
+	 })
+
+
+	  // 定义一个函数，传递两个参数，第一个参数是一个数组， 数组中每一成员都是图片的路径，第二个参数是一个回调函数，当所有图片加载完毕之后，执行回调函数
+
+	 /**
+	  * loadImage 用于加载图片 ，并且当所有图片加载完毕之后 执行回调函数
+	  * @arr 数组图片
+	  * @callback 回调函数
+	  **/
+	 function loadImag(arr, callback) {
+	 	// 定义一个信号量
+	 	var idx = 0;
+	 	// 定义数组
+	 	var loadedImagArr = [];
+	 	arr.forEach(function(value, index) {
+	 		// 创建图片元素
+	 		var img = new Image();  
+	 		// 添加路径
+			img.src = value;
+			// 添加事件
+			img.onload = function() {
+				// 因为load时间加载图片的循序是不一致的，所以我们使用对应的索引保证加载顺序
+				// 每加载一张图片就放入到数组中
+				loadedImagArr[index] = this;
+				// 信号量改变
+				idx++; 
+				if (idx === arr.length) {
+					callback(loadedImagArr);
+				}
+			}
+	 	})
+	}
+	</script>
+</body>
+</html>
