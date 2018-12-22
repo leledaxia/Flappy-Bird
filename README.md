@@ -9,4 +9,6 @@
 this is manger
 
 *这是斜体*
-<img src= "https://github.com/leledaxia/Flappy-Bird/blob/master/images/new.png" width="100"; height="100">
+<img src= "https://github.com/leledaxia/Flappy-Bird/blob/master/images/new.png">
+
+尝试再次练习
