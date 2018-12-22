@@ -24,6 +24,9 @@ this is manger
 
 使用git fetch marge
 
+我们删除server。js后并修改readme同线上比对
+
+
 
 
 
