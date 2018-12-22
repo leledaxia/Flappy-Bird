@@ -22,4 +22,8 @@ this is manger
 
 再次尝试
 
+使用git fetch marge
+
+
+
 
