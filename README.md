@@ -6,5 +6,7 @@
 
 但是慢慢坚持下去收获还是非常多哦
 
+this is manger
+
 *这是斜体*
-<img src= "">
+<img src= "https://github.com/leledaxia/Flappy-Bird/blob/master/images/new.png" width="100"; height="100">
